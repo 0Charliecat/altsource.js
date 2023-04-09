@@ -107,6 +107,15 @@ class AltSource {
         let appinfo = new App(app)
         this.apps.push(appinfo)
     }
+
+    /**
+     * `<AltSource>.setSourceURL( URL )`
+     * @param {String|URL} url
+     * @returns {void}
+     */
+    setSourceURL(url) {
+        this.sourceURL = String(url)
+    }
 }
 
 class App {
