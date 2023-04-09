@@ -1,4 +1,4 @@
-const AltSourceConstructorConfig = {
+/*const AltSourceConstructorConfig = {
     name: String,
     identifier: String,
     "subtitle?": String,
@@ -57,7 +57,7 @@ const NewsItemConstructorE = {
     "notify?": Boolean,
     "url?": String || URL,
     "appID?": String||App
-  }
+  }*/
 
 Array.prototype.pushToFront = (el) => {
     this.unshift(el)
@@ -77,21 +77,21 @@ class AltSource {
         this.identifier = String(config.identifier)
         this.subtitle = config.subtitle || null
         this.description = config.description || null
-        this.website = (!Boolean(config.website)) ? String(config.website) : null
-        this.iconURL = (!Boolean(config.iconURL)) ? String(config.iconURL) : null
-        this.headerURL = (!Boolean(config.headerURL)) ? String(config.headerURL) : null
+        this.website = (Boolean(config.website)) ? String(config.website) : null
+        this.iconURL = (Boolean(config.iconURL)) ? String(config.iconURL) : null
+        this.headerURL = (Boolean(config.headerURL)) ? String(config.headerURL) : null
 
         this.apps = [...(Array.isArray(config.apps) ? config.apps.filter(e=>e.constructor.name==="App") : [])]
         this.news = [...(Array.isArray(config.news) ? config.news.filter(e=>e.constructor.name==="NewsItem") : [])]
-        this.userdata = (!Boolean(config.userdata)) ? String(config.userdata) : null
-        this.sourceURL = (!Boolean(config.sourceURL)) ? String(config.sourceURL) : null
+        this.userdata = (Boolean(config.userdata)) ? String(config.userdata) : null
+        this.sourceURL = (Boolean(config.sourceURL)) ? String(config.sourceURL) : null
 
         if (config.hasOwnProperty("featuredApps")) {
             this.featuredApps = [...(Array.isArray(config.featuredApps) ? config.featuredApps.map(String) : [])]
             config.featuredApps.filter(e=>e.constructor.name==="App").forEach(e=>this.apps.push(e))
         }
 
-        this.publisher = (!Boolean(config.publisher)) ? String(config.publisher) : null
+        this.publisher = (Boolean(config.publisher)) ? String(config.publisher) : null
     }
 
     toJSON() {
