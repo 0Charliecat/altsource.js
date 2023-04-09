@@ -88,8 +88,6 @@ class AppVersion {
 class AppPermissions {
     /**
      * `AppPermissions`
-     * @author 0Charliecat <meow@charliecat.space>
-     * @date 2023-04-09
      * @param {String} e `permission.type`, type of the permissions
      * @param {String} reason `permission.usageDescription`
      * @returns {AppPermissions}
