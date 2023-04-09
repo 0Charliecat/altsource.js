@@ -88,7 +88,7 @@ class AltSource {
     }
 
     toJSON() {
-
+        return cleanObject({...this})
     }
 
     export() {
@@ -169,13 +169,22 @@ class NewsItem {
     }
 }
 
+module.exports = { AltSource, App, AppVersion, AppPermissions, NewsItem }
+
+/**
+ * `cleanObject(obj)`
+ * @param {any} obj with properties which values could be `null` or `undefined`
+ * @returns {any} Object that is clean of these properties
+ */
 function cleanObject(obj) {
     Object.entries(obj).forEach(([key, value]) => {
-      if (value === null || value === undefined) {
-        delete obj[key];
-      } else if (typeof value === "object") {
-        cleanObject(value);
-      }
+        if (value === null || value === undefined) {
+            delete obj[key];
+        } else if (Object.keys(module.exports).includes(obj.constructor.name)) { // Checks if OBJ's constructor isn't one of exported classes
+            obj[key] = cleanObject(obj[key].toJSON())
+        } else if (typeof value === "object") {
+            cleanObject(value);
+        }
     });
     return obj;
 }
