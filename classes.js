@@ -101,13 +101,15 @@ class AltSource {
 class App {
     /**
      * `App`
-     * @param {any} e
+     * @param {{ name: String, bundleIdentifier: String, beta: Boolean?, developerName: String?, versions: AppVersion[]?, version: String,? versionDate: Date?, versionDescription: String?, downloadURL: String | URL | null, localizedDescription: String, iconURL: String | URL, tintColor: String | Color | null, size: Number, screenshotURLs: String[] | URL[] | null, permissions: AppPermissions[]?}} e
      * @param {AltSource?} altsource
      * @returns {App}
      * 
      * Refer to the official Documentation: https://faq.altstore.io/sources/make-a-source#apps
      * 
      * Refer to the official Documentation: https://faq.altstore.io/sources/updating-apps
+     * 
+     * `<App>.permissions` {AppPermissions[]} • Observed Property from `apps.altstore.io`, this property might break your source or might behave in unexpected way, shows Permissions like this ![AltStore Permisions](https://imgur.com/ES3FL3X.png)
      * 
      * `<App>.beta` {Boolean} • Observed Property from `apps.altstore.io`, this property might break your source or might behave in unexpected way, shows Beta Flag ![Beta flag on AltStore App as an Example](https://imgur.com/OWqsycF.png) 
      */
@@ -178,10 +180,12 @@ class AppVersion {
      * @returns {any}
      * 
      * Refer to the official Documentation: https://faq.altstore.io/sources/make-a-source#app-versions
+     * 
+     * `<AppVersion>.date?` as input for constructor please use any JS Date compatible Date. Automatically converts it to `ISO 8601` format, if is of `null` or `undefined` time of call of the constructor will be used
      */
     constructor(e) {
         this.version = String(e.version)
-        this.date = new Date(e.date)
+        this.date = (Boolean(e.date)) ? new Date(e.date) : new Date()
         this.localizedDescription = e.localizedDescription
         this.downloadURL = String(e.downloadURL)
         this.size = Number(e.size)
