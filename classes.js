@@ -62,7 +62,7 @@ const NewsItemConstructorE = {
 class AltSource {
     /**
      * `new <AltSource>(Config)`
-     * @param {{ name: String, identifier: String, subtitle?: String, description?: String, website?: String | URL, apps?: App[], news?: NewsChild[], userdata?: {} }} config
+     * @param {{ name: String, identifier: String, subtitle: String?, description: String?, website: String | URL | null, apps: App[]?, news: NewsChild[]?, userdata: Any? }} config
      * @returns {AltSource}
      * 
      * Refer to the official Documentation: https://faq.altstore.io/sources/make-a-source#source
@@ -104,6 +104,8 @@ class App {
      * @param {{ name: String, bundleIdentifier: String, beta: Boolean?, developerName: String?, versions: AppVersion[]?, version: String,? versionDate: Date?, versionDescription: String?, downloadURL: String | URL | null, localizedDescription: String, iconURL: String | URL, tintColor: String | Color | null, size: Number, screenshotURLs: String[] | URL[] | null, permissions: AppPermissions[]?}} e
      * @param {AltSource?} altsource
      * @returns {App}
+     * 
+     * **WARNING:** if `versions` exists but `version` and other dependent values don't, they are automatically created based on `versions[0]`, if otherwise `versions` doesn't exist then based on `version` and other dependent values `versions[0]` is created
      * 
      * Refer to the official Documentation: https://faq.altstore.io/sources/make-a-source#apps
      * 
@@ -209,11 +211,17 @@ class AppVersion {
 class AppPermission {
     /**
      * `AppPermissions`
-     * @param {String} e `permission.type`, type of the permissions
+     * @param {String|Any|AppPermissions} e `permission.type`, type of the permissions
      * @param {String} reason `permission.usageDescription`
-     * @returns {AppPermissions}
+     * @returns {AppPermissions} self
      * 
-     * Observed property • for more please make an issue on https://github.com/0Charliecat/altsource.js/issues
+     * if `Object` or `AppPermisiions` is passes via `e` it's used as the permission property
+     * 
+     * **MIGHT BREAK YOUR SOURCE, USE AT YOUR OWN RISK**
+     * 
+     * **UNDOCUMENTED FEATURE**
+     * 
+     * Observed property • for more permissions found please make an issue on https://github.com/0Charliecat/altsource.js/issues
      */
     constructor(e, reason) {
 
