@@ -115,6 +115,7 @@ class App {
         let example = {
             name: String,
             bundleIdentifier: String,
+            "beta?": Boolean,
             "developerName?": String,
             "versions?": [
                 AppVersion
@@ -151,6 +152,7 @@ class App {
         this.tintColor = String(e.tintColor)
         this.size = Number(e.size)
         this.screenshotURLs = (Array.isArray(e.screenshotURLs)) ? e.screenshotURLs.map(String) : (typeof(e.screenshotURLs) === 'string') ? e.screenshotURLs : null
+        this.beta = Boolean(e.beta)
 
         this.permissions = (Array.isArray(e.permissions)) ? 
             e.permissions.map(new AppPermission) : 
