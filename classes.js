@@ -109,7 +109,7 @@ class App {
      * 
      * Refer to the official Documentation: https://faq.altstore.io/sources/updating-apps
      * 
-     * `<App>.beta` {Boolean} • Observed Property from `apps.altstore.io`, this property might break your source, shows ![Beta flag on AltStore App as an Example](https://imgur.com/OWqsycF.png) Beta Flag
+     * `<App>.beta` {Boolean} • Observed Property from `apps.altstore.io`, this property might break your source or might behave in unexpected way, shows Beta Flag ![Beta flag on AltStore App as an Example](https://imgur.com/OWqsycF.png) 
      */
     constructor(e, altsource) {
         let example = {
