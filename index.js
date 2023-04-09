@@ -86,7 +86,46 @@ class AppVersion {
 }
 
 class AppPermissions {
+    /**
+     * `AppPermissions`
+     * @author 0Charliecat <meow@charliecat.space>
+     * @date 2023-04-09
+     * @param {String} e `permission.type`, type of the permissions
+     * @param {String} reason `permission.usageDescription`
+     * @returns {AppPermissions}
+     */
+    constructor(e, reason) {
+        let perms = {
+            "background-audio": {
+                "type": "background-audio",
+                "usageDescription": reason
+            },
+            "background-fetch": {
+                "type": "background-audio",
+                "usageDescription": reason
+            },
+        }
 
+        this.me = (perms.hasOwnProperty(e)) ? perms[e] : null;
+
+        return this.me
+    }
+
+    /**
+     * `<AppPermissions>.toJSON()`
+     * @returns {{"type": String,"usageDescription": String}}
+     */
+    toJSON() {
+        return this.me
+    }
+
+    /**
+     * `<AppPermissions>.toJSON()`
+     * @returns {String} return the `permission.type` of the permission
+     */
+    toString() {
+        return this.me.type
+    }
 }
 
 class NewsItem {
