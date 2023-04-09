@@ -127,6 +127,37 @@ class AppPermissions {
 }
 
 class NewsItem {
+    /**
+     * `NewsItem`
+     * @param {{ title: String, identifier: String?, caption: String, date: Date?, tintColor: String?, imageURL: String|URL|undefined, notify: Boolean?, url: String|URL|undefined, appID: String|App|undefined, }} e
+     * @returns {NewsItem}
+     */
+    constructor(e) {
+        this.title = e.title
+        this.identifier = e.identifier || makeid()
+        this.caption = e.caption
+        this.date = (new Date(e.date) || new Date()).toISOString()
+        this.tintColor = e.tintColor || null
+        this.imageURL = (e.imageURL !== undefined) ? String(e.imageURL) : null
+        this.notify = Boolean(e.notify)
+        this.url = (e.url !== undefined) ? String(e.url) : null
+        this.appID = (e.appID !== undefined) ? String(e.appID) : null
+    }
 
+    toJSON() {
+        let me = {...this}
+        return cleanObject(me)
+    }
+}
+
+function cleanObject(obj) {
+    Object.entries(obj).forEach(([key, value]) => {
+      if (value === null || value === undefined) {
+        delete obj[key];
+      } else if (typeof value === "object") {
+        cleanObject(value);
+      }
+    });
+    return obj;
 }
 
