@@ -97,7 +97,48 @@ class AltSource {
 }
 
 class App {
+    constructor(e, altsource) {
+        let example = {
+            name: String,
+            bundleIdentifier: String,
+            "developerName?": String,
+            "versions?": [
+                AppVersion
+            ],
+            "version": String,
+            "versionDate": Date,
+            "versionDescription": String,
+            "downloadURL": String || URL,
+            "localizedDescription": String,
+            "iconURL": String || URL,
+            "tintColor": String || Color,
+            "size": Number,
+            "screenshotURLs": [
+                String || URL
+            ],
+            "permissions?": [
+              AppPermissions
+            ]
+        }
 
+        this.name = String(e.name)
+        this.bundleIdentifier = String(e.bundleIdentifier)
+        this.developerName = (!Boolean(e.developerName)) ? 
+            (altsource!==undefined) ? 
+                (altsource.hasOwnProperty('publisher')) ? 
+                    String(altsource.publisher) 
+                    : "null" 
+                : "null" 
+            : String(e.developerName);
+        this.iconURL = String(e.iconURL)
+        this.localizedDescription = String(e.localizedDescription)
+        this.tintColor = String(e.tintColor)
+        this.size = Number(e.size)
+        this.screenshotURLs = (Array.isArray(e.screenshotURLs)) ? e.screenshotURLs.map(String) : (typeof(e.screenshotURLs) === 'string') ? e.screenshotURLs : null
+        this.permissions = (Array.isArray(e.permissions)) ? e.permissions.map(new AppPermission) : (typeof(e.permissions) === 'string' || typeof(e.permissions) === 'object') ? new AppPermission(permissions) : null;
+
+        
+    }
 }
 
 class AppVersion {
@@ -129,7 +170,7 @@ class AppVersion {
     }
 }
 
-class AppPermissions {
+class AppPermission {
     /**
      * `AppPermissions`
      * @param {String} e `permission.type`, type of the permissions
@@ -137,18 +178,27 @@ class AppPermissions {
      * @returns {AppPermissions}
      */
     constructor(e, reason) {
-        let perms = {
-            "background-audio": {
-                "type": "background-audio",
-                "usageDescription": reason
-            },
-            "background-fetch": {
-                "type": "background-audio",
-                "usageDescription": reason
-            },
+
+        if (typeof(e) === "object") {
+            if (e.hasOwnProperty("usageDescription") && e.hasOwnProperty('type')) {
+                this.me = e
+            }
+        } else {
+            let perms = {
+                "background-audio": {
+                    "type": "background-audio",
+                    "usageDescription": reason
+                },
+               "background-fetch": {
+                    "type": "background-audio",
+                    "usageDescription": reason
+                },
+            }
+
+            this.me = (perms.hasOwnProperty(e)) ? perms[e] : null;
         }
 
-        this.me = (perms.hasOwnProperty(e)) ? perms[e] : null;
+        
 
         return this.me
     }
@@ -194,7 +244,7 @@ class NewsItem {
     }
 }
 
-module.exports = { AltSource, App, AppVersion, AppPermissions, NewsItem }
+module.exports = { AltSource, App, AppVersion, AppPermission, NewsItem }
 
 /**
  * `cleanObject(obj)`
