@@ -64,6 +64,8 @@ class AltSource {
      * `new <AltSource>(Config)`
      * @param {{ name: String, identifier: String, subtitle?: String, description?: String, website?: String | URL, apps?: App[], news?: NewsChild[], userdata?: {} }} config
      * @returns {AltSource}
+     * 
+     * Refer to the official Documentation: https://faq.altstore.io/sources/make-a-source#source
      */
     constructor(config) {
         this.name = String(config.name)
@@ -97,6 +99,18 @@ class AltSource {
 }
 
 class App {
+    /**
+     * `App`
+     * @param {any} e
+     * @param {AltSource?} altsource
+     * @returns {App}
+     * 
+     * Refer to the official Documentation: https://faq.altstore.io/sources/make-a-source#apps
+     * 
+     * Refer to the official Documentation: https://faq.altstore.io/sources/updating-apps
+     * 
+     * `<App>.beta` {Boolean} • Observed Property from `apps.altstore.io`, this property might break your source, shows ![Beta flag on AltStore App as an Example](https://imgur.com/OWqsycF.png) Beta Flag
+     */
     constructor(e, altsource) {
         let example = {
             name: String,
@@ -123,6 +137,7 @@ class App {
 
         this.name = String(e.name)
         this.bundleIdentifier = String(e.bundleIdentifier)
+
         this.developerName = (!Boolean(e.developerName)) ? 
             (altsource!==undefined) ? 
                 (altsource.hasOwnProperty('publisher')) ? 
@@ -130,14 +145,27 @@ class App {
                     : "null" 
                 : "null" 
             : String(e.developerName);
+
         this.iconURL = String(e.iconURL)
         this.localizedDescription = String(e.localizedDescription)
         this.tintColor = String(e.tintColor)
         this.size = Number(e.size)
         this.screenshotURLs = (Array.isArray(e.screenshotURLs)) ? e.screenshotURLs.map(String) : (typeof(e.screenshotURLs) === 'string') ? e.screenshotURLs : null
-        this.permissions = (Array.isArray(e.permissions)) ? e.permissions.map(new AppPermission) : (typeof(e.permissions) === 'string' || typeof(e.permissions) === 'object') ? new AppPermission(permissions) : null;
 
-        
+        this.permissions = (Array.isArray(e.permissions)) ? 
+            e.permissions.map(new AppPermission) : 
+            (typeof(e.permissions) === 'string' || typeof(e.permissions) === 'object') ? 
+                new AppPermission(permissions) : 
+                null;
+
+        // If `e` includes `versions` and doesnt include `version`, `versionDate`, `versionDescription`, and `downloadURL` then
+            // Use the `verions[0]` and make these properties
+        // Else If `e` includes `versions` and includes `version`, `versionDate`, `versionDescription`, and `downloadURL` and they arent same as `versions[0]` then
+            // make new `versions` object and push it to the front
+        // Else If `e` doesnt include `versions` but includes `version`, `versionDate`, `versionDescription`, and `downloadURL` then
+            // make new `versions` object and push it to the front
+
+
     }
 }
 
@@ -146,6 +174,8 @@ class AppVersion {
      * `AppVersion`
      * @param {{ "version": String, "date": Date, "localizedDescription": String, "downloadURL": String | URL, "size": Number }} e
      * @returns {any}
+     * 
+     * Refer to the official Documentation: https://faq.altstore.io/sources/make-a-source#app-versions
      */
     constructor(e) {
         this.version = String(e.version)
@@ -176,6 +206,8 @@ class AppPermission {
      * @param {String} e `permission.type`, type of the permissions
      * @param {String} reason `permission.usageDescription`
      * @returns {AppPermissions}
+     * 
+     * Observed property • for more please make an issue on https://github.com/0Charliecat/altsource.js/issues
      */
     constructor(e, reason) {
 
@@ -225,6 +257,8 @@ class NewsItem {
      * `NewsItem`
      * @param {{ title: String, identifier: String?, caption: String, date: Date?, tintColor: String?, imageURL: String|URL|undefined, notify: Boolean?, url: String|URL|undefined, appID: String|App|undefined, }} e
      * @returns {NewsItem}
+     * 
+     * Refer to the official Documentation: https://github.com/0Charliecat/altsource.js/issues
      */
     constructor(e) {
         this.title = e.title
