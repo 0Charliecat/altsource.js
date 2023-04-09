@@ -103,8 +103,13 @@ class AltSource {
         this.news.pushToFront(newsi)
     }
 
+    /**
+     * `<AltSource>.addApp( App )`
+     * @param {App|{ name: String, bundleIdentifier: String, beta: Boolean?, developerName: String?, versions: AppVersion[]?, version: String,? versionDate: Date?, versionDescription: String?, downloadURL: String | URL | null, localizedDescription: String, iconURL: String | URL, tintColor: String | Color | null, size: Number, screenshotURLs: String[] | URL[] | null, permissions: AppPermissions[]?}} app
+     * @returns {void}
+     */
     addApp(app) {
-        let appinfo = new App(app)
+        let appinfo = new App(app, this)
         this.apps.push(appinfo)
     }
 
@@ -136,7 +141,7 @@ class App {
      * `<App>.beta` {Boolean} • Observed Property from `apps.altstore.io`, this property might break your source or might behave in unexpected way, shows Beta Flag ![Beta flag on AltStore App as an Example](https://imgur.com/OWqsycF.png) 
      */
     constructor(e, altsource) {
-        let example = {
+        /*let example = {
             name: String,
             bundleIdentifier: String,
             "beta?": Boolean,
@@ -156,9 +161,9 @@ class App {
                 String || URL
             ],
             "permissions?": [
-              AppPermissions
+              AppPermission
             ]
-        }
+        }*/
 
         this.name = String(e.name)
         this.bundleIdentifier = String(e.bundleIdentifier)
@@ -173,8 +178,7 @@ class App {
 
         this.iconURL = String(e.iconURL)
         this.localizedDescription = String(e.localizedDescription)
-        this.tintColor = String(e.tintColor)
-        this.size = Number(e.size)
+        this.tintColor = (Boolean(e.tintColor)) ? String(e.tintColor) : null;
         this.screenshotURLs = (Array.isArray(e.screenshotURLs)) ? e.screenshotURLs.map(String) : (typeof(e.screenshotURLs) === 'string') ? e.screenshotURLs : null
         this.beta = Boolean(e.beta)
 
@@ -205,8 +209,15 @@ class App {
                     downloadURL: e.downloadURL,
                     size: e.size,
                 })
-
                 this.versions.pushToFront(ver)
+
+                this.version            = this.versions[0].version
+                this.versionDate        = this.versions[0].date
+                this.versionDescription = this.versions[0].localizedDescription
+                this.downloadURL        = this.versions[0].downloadURL
+                this.size               = this.versions[0].size
+
+                
             } else if (!Array.isArray(e.versions) && e.version && e.versionDate && e.versionDescription && e.downloadURL) {
                 // Else If `e` doesnt include `versions` but includes `version`, `versionDate`, `versionDescription`, and `downloadURL` then
                 // make new `versions` object and push it to the front
@@ -218,9 +229,21 @@ class App {
                     downloadURL: e.downloadURL,
                     size: e.size,
                 })]
+
+                this.version            = this.versions[0].version
+                this.versionDate        = this.versions[0].date
+                this.versionDescription = this.versions[0].localizedDescription
+                this.downloadURL        = this.versions[0].downloadURL
+                this.size               = this.versions[0].size
             } else if (Array.isArray(e.versions) && e.version && e.versionDate && e.versionDescription && e.downloadURL && (e.version === e.versions[0].version && e.versionDate === e.versions[0].date && e.versionDescription === e.versions[0].localizedDescription && e.downloadURL === e.versions[0].downloadURL)) {
                 // Else If `e` includes `versions` and includes `version`, `versionDate`, `versionDescription`, and `downloadURL` and they are same as `versions[0]` then
                 // do nothing
+                this.version            = e.versions[0].version
+                this.versionDate        = e.versions[0].date
+                this.versionDescription = e.versions[0].localizedDescription
+                this.downloadURL        = e.versions[0].downloadURL
+                this.size               = e.versions[0].size
+                this.versions           = e.versions.map(AppVersion)
             } else {
                 // Else 
                 // just throw an error
