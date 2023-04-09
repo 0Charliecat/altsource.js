@@ -2,6 +2,11 @@
 Build AltStore Source with JS 
 
 
+🚧 this is WIP thing 🚧
+
+---
+**TODO: Make better Documentation**
+---
 ### Class: AltSource
 
 `new AltSource(Config)`
