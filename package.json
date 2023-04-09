@@ -1,0 +1,24 @@
+{
+  "name": "altsource",
+  "version": "1.0.0",
+  "description": "Build AltStore Source with JS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0Charliecat/altsource.js.git"
+  },
+  "keywords": [
+    "altstore",
+    "altsource",
+    "altkit"
+  ],
+  "author": "0Charliecat",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/0Charliecat/altsource.js/issues"
+  },
+  "homepage": "https://github.com/0Charliecat/altsource.js#readme"
+}
