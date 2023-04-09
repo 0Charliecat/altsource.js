@@ -59,6 +59,11 @@ const NewsItemConstructorE = {
     "appID?": String||App
   }
 
+Array.prototype.pushToFront = (el) => {
+    this.unshift(el)
+    return this
+}
+
 class AltSource {
     /**
      * `new <AltSource>(Config)`
@@ -164,14 +169,90 @@ class App {
                 new AppPermission(permissions) : 
                 null;
 
-        // If `e` includes `versions` and doesnt include `version`, `versionDate`, `versionDescription`, and `downloadURL` then
-            // Use the `verions[0]` and make these properties
-        // Else If `e` includes `versions` and includes `version`, `versionDate`, `versionDescription`, and `downloadURL` and they arent same as `versions[0]` then
-            // make new `versions` object and push it to the front
-        // Else If `e` doesnt include `versions` but includes `version`, `versionDate`, `versionDescription`, and `downloadURL` then
-            // make new `versions` object and push it to the front
+
+            if (Array.isArray(e.versions) && !e.version && !e.versionDate && !e.versionDescription && !e.downloadURL) {
+                // If `e` includes `versions` and doesnt include `version`, `versionDate`, `versionDescription`, and `downloadURL` then
+                // Use the `verions[0]` and make these properties
+                this.version            = e.versions[0].version
+                this.versionDate        = e.versions[0].date
+                this.versionDescription = e.versions[0].localizedDescription
+                this.downloadURL        = e.versions[0].downloadURL
+                this.size               = e.versions[0].size
+
+            } else if (Array.isArray(e.versions) && e.version && e.versionDate && e.versionDescription && e.downloadURL && (e.version !== e.versions[0].version || e.versionDate !== e.versions[0].date || e.versionDescription !== e.versions[0].localizedDescription || e.downloadURL !== e.versions[0].downloadURL)) {
+                // Else If `e` includes `versions` and includes `version`, `versionDate`, `versionDescription`, and `downloadURL` and they arent same as `versions[0]` then
+                // make new `versions` object and push it to the front
+
+                let ver = new AppVersion({
+                    version: e.version,
+                    date: e.versionDate,
+                    localizedDescription: e.versionDescription,
+                    downloadURL: e.downloadURL,
+                    size: e.size,
+                })
+
+                this.versions.pushToFront(ver)
+            } else if (!Array.isArray(e.versions) && e.version && e.versionDate && e.versionDescription && e.downloadURL) {
+                // Else If `e` doesnt include `versions` but includes `version`, `versionDate`, `versionDescription`, and `downloadURL` then
+                // make new `versions` object and push it to the front
+
+                this.versions = [new AppVersion({
+                    version: e.version,
+                    date: e.versionDate,
+                    localizedDescription: e.versionDescription,
+                    downloadURL: e.downloadURL,
+                    size: e.size,
+                })]
+            } else if (Array.isArray(e.versions) && e.version && e.versionDate && e.versionDescription && e.downloadURL && (e.version === e.versions[0].version && e.versionDate === e.versions[0].date && e.versionDescription === e.versions[0].localizedDescription && e.downloadURL === e.versions[0].downloadURL)) {
+                // Else If `e` includes `versions` and includes `version`, `versionDate`, `versionDescription`, and `downloadURL` and they are same as `versions[0]` then
+                // do nothing
+            } else {
+                // Else 
+                // just throw an error
+                throw new Error('No version configuration is valid')
+            }
+            
 
 
+    }
+
+    /**
+     * `<App>.newVersion( e )` • Adds new Version of the app to the Source
+     * @param {AppVersion|{ "version": String, "date": Date, "localizedDescription": String, "downloadURL": String | URL, "size": Number }} e
+     * @returns {void}
+     */
+    newVersion(e) {
+        let ver = new AppVersion(e)
+        this.versions.pushToFront(ver)
+        this.version            = e.version
+        this.versionDate        = e.date
+        this.versionDescription = e.localizedDescription
+        this.downloadURL        = e.downloadURL
+        this.size               = e.size
+    }
+
+    /**
+     * `<App>.getLatestVersion()`
+     * @returns {String}
+     */
+    getLatestVersion() {
+        return this.versions[0].toString()
+    }
+
+    /**
+     * `<App>.getAppPermissions()`
+     * @returns {String[]?}
+     */
+    getAppPermissions() {
+        return (this.hasOwnProperty('appPermissions')) ? this.appPermissions.map(String) : null;
+    }
+
+    /**
+     * `<App>.isBeta()`
+     * @returns {Boolean?}
+     */
+    isBeta() {
+        return (this.hasOwnProperty('isBeta')) ? this.isBeta : null;
     }
 }
 
