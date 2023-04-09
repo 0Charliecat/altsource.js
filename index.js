@@ -9,5 +9,5 @@ exp.middleware = expressmid
 // Classes
 exp.App = classes.App
 exp.AppVersion = classes.AppVersion
-exp.AppPermissions = classes.AppPermissions
+exp.AppPermission = classes.AppPermission
 exp.NewsItem = classes.NewsItem
