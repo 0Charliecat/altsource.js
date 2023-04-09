@@ -101,7 +101,32 @@ class App {
 }
 
 class AppVersion {
+    /**
+     * `AppVersion`
+     * @param {{ "version": String, "date": Date, "localizedDescription": String, "downloadURL": String | URL, "size": Number }} e
+     * @returns {any}
+     */
+    constructor(e) {
+        this.version = String(e.version)
+        this.date = new Date(e.date)
+        this.localizedDescription = e.localizedDescription
+        this.downloadURL = String(e.downloadURL)
+        this.size = Number(e.size)
+    }
 
+    toJSON() {
+        return {
+            "version": this.version,
+            "date": this.date.toISOString(),
+            "localizedDescription": this.localizedDescription,
+            "downloadURL": this.downloadURL,
+            "size": this.size
+        }
+    }
+
+    toString() {
+        return String(this.version)
+    }
 }
 
 class AppPermissions {
