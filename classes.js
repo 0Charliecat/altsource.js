@@ -98,8 +98,14 @@ class AltSource {
         return cleanObject({...this})
     }
 
-    export() {
+    addNewsItem(newsItem) {
+        let newsi = new NewsItem(newsItem)
+        this.news.pushToFront(newsi)
+    }
 
+    addApp(app) {
+        let appinfo = new App(app)
+        this.apps.push(appinfo)
     }
 }
 
@@ -231,6 +237,11 @@ class App {
         this.size               = e.size
     }
 
+    addPermission(permission) {
+        let perm = new AppPermission(permission)
+        this.permissions = (Array.isArray(this.permissions)) ? this.permissions.push(perm) : [perm]
+    }
+
     /**
      * `<App>.getLatestVersion()`
      * @returns {String}
@@ -253,6 +264,18 @@ class App {
      */
     isBeta() {
         return (this.hasOwnProperty('isBeta')) ? this.isBeta : null;
+    }
+
+    toJSON() {
+        return cleanObject({...this})
+    }
+
+    /**
+     * `<App>.toString()`
+     * @returns {String} "App Name (Bundle ID i.e. com.example.app)"
+     */
+    toString() {
+        return `${this.name} (${this.bundleIdentifier})`
     }
 }
 
