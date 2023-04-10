@@ -121,6 +121,27 @@ class AltSource {
     setSourceURL(url) {
         this.sourceURL = String(url)
     }
+
+    /**
+     * `<AltSource>.listApps()`
+     * @returns {App[]}
+     */
+    listApps() {
+        return this.apps
+    }
+
+    /**
+     * `<AltSource>.getApp( query )`
+     * @param {String} q App Name or Bundle ID
+     * @returns {App[]|void[]}
+     */
+    getApp(q) {
+        q = String(q)
+        let byName = this.apps.find(e=>e.name === q)
+        let byBundle = this.apps.find(e=>e.bundle === q)
+
+        return [(Boolean(byName))?byName:null, (Boolean(byBundle))?byBundle:null].filter(e=>e!==null)
+    }
 }
 
 class App {
