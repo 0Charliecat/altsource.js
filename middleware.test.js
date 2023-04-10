@@ -3,7 +3,7 @@ const AltSource = require('./index')
 function AMidTester(middleware, reqArg) {
     let req = {...reqArg}
     let res = {
-        json: (out) => {console.log(`res.json: called`, out)},
+        json: (out) => {console.log(`res.json: called`, JSON.stringify(out))},
         end: (out) => {console.log(`res.end: called`, out)}
     }
     let next = () => {console.log(`next(): called`)}
