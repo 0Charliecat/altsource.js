@@ -1,5 +1,5 @@
 {
-  "name": "@0charliecat/altsource",
+  "name": "altsource",
   "version": "0.1.0",
   "description": "Manipulate and Create AltStore Sources in NodeJS",
   "main": "index.js",
@@ -20,8 +20,6 @@
   "bugs": {
     "url": "https://github.com/0Charliecat/altsource.js/issues"
   },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
-  },
+
   "homepage": "https://github.com/0Charliecat/altsource.js#readme"
 }
