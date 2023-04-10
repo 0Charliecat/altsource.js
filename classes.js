@@ -460,10 +460,19 @@ function cleanObject(obj) {
     Object.entries(obj).forEach(([key, value]) => {
         if (value === null || value === undefined) {
             delete obj[key];
-        } else if (Object.keys(module.exports).includes(obj.constructor.name)) { // Checks if OBJ's constructor isn't one of exported classes
-            obj[key] = cleanObject(obj[key].toJSON())
         } else if (typeof value === "object") {
-            cleanObject(value);
+            if (Object.keys(module.exports).includes(obj.constructor.name)) { // Checks if OBJ's constructor isn't one of exported classes
+                console.dir(obj[key]);
+                obj[key] = cleanObject(obj[key].toJSON())
+            } else if (Array.isArray(obj[key])) {
+                if (Object.keys(module.exports).includes(obj.constructor.name)) { // Checks if OBJ's constructor isn't one of exported classes
+                    console.dir(obj[key]);
+                    obj[key].map(e=>cleanObject(e.toJSON()))
+                } else {
+                }
+            } else {
+                cleanObject(value);
+            }
         }
     });
     return obj;
