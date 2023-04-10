@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/0Charliecat/altsource.js/issues"
   },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "homepage": "https://github.com/0Charliecat/altsource.js#readme"
 }
