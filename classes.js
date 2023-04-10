@@ -59,11 +59,6 @@ const NewsItemConstructorE = {
     "appID?": String||App
   }*/
 
-Array.prototype.pushToFront = (el) => {
-    this.unshift(el)
-    return this
-}
-
 class AltSource {
     /**
      * `new <AltSource>(Config)`
@@ -98,9 +93,14 @@ class AltSource {
         return cleanObject({...this})
     }
 
+    /**
+     * `<AltSource>.addNewsItem( newsItem )`
+     * @param {NewsItem|{ title: String, identifier: String?, caption: String, date: Date?, tintColor: String?, imageURL: String|URL|undefined, notify: Boolean?, url: String|URL|undefined, appID: String|App|undefined, }} newsItem
+     * @returns {void}
+     */
     addNewsItem(newsItem) {
         let newsi = new NewsItem(newsItem)
-        this.news.pushToFront(newsi)
+        this.news.unshift(newsi)
     }
 
     /**
@@ -209,7 +209,7 @@ class App {
                     downloadURL: e.downloadURL,
                     size: e.size,
                 })
-                this.versions.pushToFront(ver)
+                this.versions.unshift(ver)
 
                 this.version            = this.versions[0].version
                 this.versionDate        = this.versions[0].date
@@ -261,7 +261,7 @@ class App {
      */
     newVersion(e) {
         let ver = new AppVersion(e)
-        this.versions.pushToFront(ver)
+        this.versions.unshift(ver)
         this.version            = e.version
         this.versionDate        = e.date
         this.versionDescription = e.localizedDescription
@@ -414,7 +414,7 @@ class NewsItem {
         this.title = e.title
         this.identifier = e.identifier || makeid()
         this.caption = e.caption
-        this.date = (new Date(e.date) || new Date()).toISOString()
+        this.date = (e.date!== undefined) ? (new Date(e.date)).toISOString() : (new Date()).toISOString()
         this.tintColor = e.tintColor || null
         this.imageURL = (e.imageURL !== undefined) ? String(e.imageURL) : null
         this.notify = Boolean(e.notify)
@@ -448,3 +448,6 @@ function cleanObject(obj) {
     return obj;
 }
 
+function makeid(length = 6) {
+    return Math.random().toString(36).substring(2, length+2);
+};
