@@ -1,7 +1,7 @@
 {
-  "name": "altsource",
+  "name": "@0charliecat/altsource",
   "version": "0.1.0",
-  "description": "Build AltStore Source with JS",
+  "description": "Manipulate and Create AltStore Sources in NodeJS",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -15,7 +15,7 @@
     "altsource",
     "altkit"
   ],
-  "author": "0Charliecat",
+  "author": "charliecat",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/0Charliecat/altsource.js/issues"
