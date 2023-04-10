@@ -1,5 +1,10 @@
 const AltSource = require('./index')
 
+/**
+ * @param {Function} middleware
+ * @param {any} reqArg
+ * @returns {void}
+ */
 function AMidTester(middleware, reqArg) {
     let req = {...reqArg}
     let res = {

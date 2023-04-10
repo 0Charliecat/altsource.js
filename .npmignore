@@ -1,2 +1,3 @@
 example_from_altstore_docu.json
 .vscode/*
+*.test.js

@@ -36,7 +36,7 @@ module.exports = function (Conf, Ext={}) {
                 res.json(Alt.toJSON())
             } else {
                 logthat('outside of the scope with path')
-                res.Altsource = Alt;
+                res.AltSource = Alt;
                 next(); 
             }
         } else if (!Ext.hasOwnProperty('path') && String(req.baseUrl + req.path) === '/altstore.json') {
@@ -44,7 +44,7 @@ module.exports = function (Conf, Ext={}) {
             res.json(Alt.toJSON())
         } else {
             logthat('outside of the scope')
-            req.Altsource = Alt;
+            req.AltSource = Alt;
             next(); 
         }
     }

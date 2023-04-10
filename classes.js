@@ -330,6 +330,14 @@ class App {
     toString() {
         return `${this.name} (${this.bundleIdentifier})`
     }
+
+    /**
+     * `<App>.toggleBeta()`
+     * @returns {any}
+     */
+    toggleBeta() {
+        return this.beta = !this.beta
+    }
 }
 
 class AppVersion {
