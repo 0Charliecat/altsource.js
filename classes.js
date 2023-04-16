@@ -179,6 +179,10 @@ class App {
      * `<App>.permissions` {AppPermissions[]} • Observed Property from `apps.altstore.io`, this property might break your source or might behave in unexpected way, shows Permissions like this ![AltStore Permisions](https://imgur.com/ES3FL3X.png)
      * 
      * `<App>.beta` {Boolean} • Observed Property from `apps.altstore.io`, this property might break your source or might behave in unexpected way, shows Beta Flag ![Beta flag on AltStore App as an Example](https://imgur.com/OWqsycF.png) 
+     *  
+     * Citation of SideStore Documentation for creating sources:
+     * 
+     * > Currently, this is also tied in with the Patreon app locking system used with AltStore/Delta betas. But it is not recommended to attempt to use it for this purpose since it will ultimately be changing in the future.
      */
     constructor(e, altsource) {
         /*let example = {
