@@ -46,6 +46,25 @@ const AppVersionConstructorE = {
 }
 
 const AppPermissionsConstructorE = "background-audio"||"background-fetch" // Only known Perms
+/*
+new known perms from https://wiki.sidestore.io/references/sources.html • TODO @0Charliecat Add
+photos
+camera
+location
+contacts
+reminders
+music
+microphone
+speech-recognition
+background-audio
+background-fetch
+bluetooth
+network
+calendars
+faceid
+siri
+motion
+* /
 
 const NewsItemConstructorE = {
     "title": String,
