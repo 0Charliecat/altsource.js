@@ -418,18 +418,36 @@ class AppPermission {
                 this.me = e
             }
         } else {
-            let perms = {
-                "background-audio": {
-                    "type": "background-audio",
-                    "usageDescription": reason
-                },
-               "background-fetch": {
-                    "type": "background-audio",
-                    "usageDescription": reason
-                },
-            }
+            let AllowedValues = [
+                "background-audio",   // Found in AltStore official Source • https://apps.altstore.io
+                "background-fetch",   // Found in AltStore official Source • https://apps.altstore.io
 
-            this.me = (perms.hasOwnProperty(e)) ? perms[e] : null;
+                "photos",             // from https://wiki.sidestore.io/references/sources.html
+                "camera",             // from https://wiki.sidestore.io/references/sources.html
+                "location",           // from https://wiki.sidestore.io/references/sources.html
+                "contacts",           // from https://wiki.sidestore.io/references/sources.html
+                "reminders",          // from https://wiki.sidestore.io/references/sources.html
+                "music",              // from https://wiki.sidestore.io/references/sources.html
+                "microphone",         // from https://wiki.sidestore.io/references/sources.html
+                "speech-recognition", // from https://wiki.sidestore.io/references/sources.html
+                "bluetooth",          // from https://wiki.sidestore.io/references/sources.html
+                "network",            // from https://wiki.sidestore.io/references/sources.html
+                "calendars",          // from https://wiki.sidestore.io/references/sources.html
+                "faceid",             // from https://wiki.sidestore.io/references/sources.html
+                "siri",               // from https://wiki.sidestore.io/references/sources.html
+                "motion",             // from https://wiki.sidestore.io/references/sources.html
+
+            ]
+
+            if (AllowedValues.includes(e.toLowerCase())) {
+                let perm = {
+                    "type": e.toLowerCase(),
+                    "usageDescription": reason
+                }
+                this.me = perm
+            } else {
+                this.me = null
+            }
         }
 
         
